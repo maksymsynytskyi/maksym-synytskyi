@@ -1,0 +1,122 @@
+#include <iostream> 
+#include <stdlib.h> 
+using namespace std; 
+class MyClass 
+{ 
+private: 
+int kst; 
+int* arr; 
+public: 
+MyClass(int amount)                         // конструктор 
+
+{ 
+kst = amount; 
+arr = new int[kst]; 
+for (int i = 0; i < kst; i++) 
+this->arr[i] = 0; 
+} 
+
+MyClass(const MyClass& x)                  // конструктор копіювання 
+
+{ 
+
+printf("\n\n\tCopy constructor created\n"); 
+int i; 
+this->arr = new int[x.kst]; 
+for (i = 0; i < x.kst; i++) 
+this->arr[i] = x.arr[i]; 
+
+} 
+
+~MyClass()                                 //деструктор 
+
+{ 
+delete[]arr; 
+printf("\n\n\tDistructor was used.\n"); 
+} 
+void Scan()                                                   //введення даних у масив 
+{ 
+
+cout << "\tEnter " << kst << " numbers, which you want to add in your array (use space between numbers):\n"; 
+for (int i = 0; i < kst; i++) 
+cin >> this->arr[i]; 
+} 
+
+void Print()                                                        //вивід масиву 
+
+{ 
+for (int i = 1; i < kst; ++i)            //сортування масиву в порядку спадання 
+{ 
+for (int r = 0; r < kst - i; r++) 
+{ 
+if (this->arr[r] < arr[r + 1]) 
+{ 
+int temp = arr[r]; 
+arr[r] = arr[r + 1]; 
+arr[r + 1] = temp; 
+} 
+} 
+} 
+cout << "\n\t Our sorted array looks like: "; 
+for (int k = 0; k < kst; k++) 
+{ 
+cout << " " << this->arr[k]; 
+} 
+} 
+
+void eq(MyClass arr1)                                     //порівнювання двох масивів 
+{ 
+
+int cn1 = sizeof(arr) - 1; 
+int cn2 = sizeof(arr1.arr) - 1; 
+for (int k = 0; k < (cn1 + 1); ) 
+
+{ 
+for (int l = 0; l < (cn2 + 1); ) 
+{ 
+if (this->arr[k] == arr1.arr[l]) 
+{ 
+
+k++; 
+l++; 
+if (k == cn1 || l == cn2) 
+
+{ 
+
+cout << "\n\tThey are the same." << endl; 
+return; 
+} 
+} 
+else 
+{ 
+cout << "\n\tThey are different." << endl; 
+return; 
+} 
+
+} 
+
+} 
+
+} 
+
+}; 
+
+int main() 
+{ 
+int kst1, kst2; 
+cout << "\tYou must initialize 2 arrays.\n" << endl; 
+cout << "\tEnter the amount of numbers in first array: "; 
+cin >> kst1; 
+cout << "\n"; 
+cout << "\tEnter the amount of numbers in second array: "; 
+cin >> kst2; 
+cout << "\n"; 
+MyClass arr1(kst1); 
+MyClass arr2(kst2); 
+arr1.Scan(); 
+arr2.Scan(); 
+arr1.Print(); 
+arr2.Print(); 
+arr1.eq(arr2); 
+return 0; 
+} 
