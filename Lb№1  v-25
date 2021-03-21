@@ -1,0 +1,130 @@
+#include <iostream> 
+#include <stdlib.h> 
+using namespace std; 
+
+
+class MyClass  
+{ 
+
+private: 
+    int kst; 
+    int*arr; 
+
+public: 
+    MyClass(int arr[])                                                       //конструктори 
+
+{ 
+
+kst = 1; 
+arr = new int[kst]; 
+for (int i = 0; i < kst; i++) 
+arr[i] = 0; 
+
+} 
+MyClass(int amount) 
+{ 
+
+kst = amount; 
+arr = new int[kst]; 
+
+}    ~MyClass()                                                    //деструктор 
+
+        { 
+            delete[]arr; 
+         
+
+        } 
+
+    void Scan()                                                    //функція введення даних у масив 
+
+    { 
+        cout << "\tEnter " << kst << " numbers, which you want to add in your array (use space between numbers):\n"; 
+        for (int i = 0; i < kst; i++) 
+            cin >> arr[i]; 
+    } 
+
+    void Print()                                                   //функція виводу масиву 
+
+    { 
+        for (int i = 1; i < kst; ++i)                             //сортування масиву в порядку спадання 
+        { 
+            for (int r = 0; r < kst - i; r++)             
+            { 
+                if (arr[r] < arr[r + 1]) 
+                { 
+
+                    int temp = arr[r]; 
+                    arr[r] = arr[r + 1]; 
+                    arr[r + 1] = temp; 
+                } 
+            } 
+        } 
+
+            cout << "\n\t Our sorted array looks like: "; 
+            for (int k = 0; k < kst; k++)  
+            { 
+                cout << " " << arr[k]; 
+            } 
+        } 
+    
+    void eq(MyClass arr1) 
+
+    { 
+
+        int kil = sizeof(arr) / sizeof(int); 
+        int cn1 = sizeof(arr)-1; 
+        int cn2 = sizeof(arr1.arr)-1; 
+
+        if (cn1 == cn2) 
+
+        { 
+            for (int k = 0; k < (kil + 1); ) 
+            { 
+                for (int l = 0; l < (kil + 1); ) 
+                { 
+                    if (arr[k] == arr1.arr[l]) 
+                    { 
+                        k++; 
+                        l++; 
+                        if (k == kil || l == kil) 
+                        { 
+                            cout << "\n\tThey are the same." << endl; 
+                            getchar(); 
+                        } 
+                    } 
+                    else 
+                    { 
+                        cout << "\n\tThey are different." << endl; 
+                        return; 
+
+                    } 
+
+                } 
+
+            } 
+
+        } 
+
+    } 
+        
+
+}; 
+
+int main() 
+{ 
+    int kst1, kst2; 
+    cout << "\tYou must initialize 2 arrays.\n" << endl; 
+    cout << "\tEnter the amount of numbers in first array: "; 
+    cin >> kst1; 
+    cout << "\n"; 
+    cout << "\tEnter the amount of numbers in second array: "; 
+    cin >> kst2; 
+    cout << "\n"; 
+    MyClass arr1(kst1); 
+    MyClass arr2(kst2); 
+    arr1.Scan(); 
+    arr2.Scan(); 
+    arr1.Print(); 
+    arr2.Print(); 
+    arr1.eq(arr2); 
+} 
