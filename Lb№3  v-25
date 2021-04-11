@@ -1,0 +1,248 @@
+#include <iostream> 
+#include <stdlib.h> 
+using namespace std; 
+ 
+
+class MyClass 
+{ 
+
+private: 
+int kst; 
+int* arr; 
+public: 
+MyClass(int amount)                         // конструктор 
+
+{ 
+
+kst = amount; 
+arr = new int[kst]; 
+for (int i = 0; i < kst; i++) 
+this->arr[i] = 0; 
+
+} 
+
+MyClass(const MyClass& x)                  // конструктор копіювання 
+
+{ 
+
+int i; 
+this->arr = new int[x.kst]; 
+for (i = 0; i < x.kst; i++) 
+this->arr[i] = x.arr[i]; 
+
+} 
+
+~MyClass()                                 //деструктор 
+
+{ 
+
+delete[]arr; 
+
+} 
+
+void Scan()                                                   //введення даних у масив 
+
+{ 
+
+cout << "\tEnter " << kst << " numbers, which you want to add in your array (use space between numbers):\n"; 
+for (int i = 0; i < kst; i++) 
+cin >> this->arr[i]; 
+
+} 
+
+void Print()                                                        //вивід масиву 
+
+{ 
+
+int indx, j, pos; 
+double min; 
+for (indx = 0; indx < kst - 1; indx++) 
+
+{ 
+
+pos = indx; 
+min = arr[indx]; 
+for (j = indx + 1; j < kst; j++) 
+
+{ 
+
+if (arr[j] < min) 
+
+{ 
+
+pos = j; 
+min = arr[j]; 
+
+} 
+
+} 
+
+arr[pos] = arr[indx]; 
+arr[indx] = min; 
+
+} 
+
+cout << "\n\t Our sorted array looks like: "; 
+for (int k = 0; k < kst; k++) 
+
+{ 
+
+cout << " " << this->arr[k]; 
+
+} 
+
+} 
+
+void eq(MyClass arr1)                                     //порівнювання двох масивів 
+
+{ 
+
+int cn1 = sizeof(arr) - 1; 
+int cn2 = sizeof(arr1.arr) - 1; 
+for (int k = 0; k < (cn1 + 1); ) 
+
+{ 
+
+for (int l = 0; l < (cn2 + 1); ) 
+
+{ 
+
+if (this->arr[k] == arr1.arr[l]) 
+
+{ 
+
+k++; 
+l++; 
+if (k == cn1 || l == cn2) 
+
+{ 
+
+cout << "\n\t They are the same." << endl; 
+
+return; 
+
+} 
+
+} 
+
+else 
+
+{ 
+cout << "\n\t They are different." << endl; 
+return; 
+
+} 
+
+} 
+
+} 
+
+} 
+
+void operator >> (MyClass& param) //виводимо об'єкт і параметр на екран 
+
+{ 
+
+cout << "\n\t Actions using operators: \n" << endl; 
+this->Print(); 
+param.Print(); 
+
+} 
+
+bool operator > (MyClass& param) // перевіряємо чи параметр є підмножиною об'єкту 
+
+{ 
+
+if (this->kst < param.kst) 
+
+{ 
+
+cout << "\n\t Parameter isn't subset of another array. "; 
+return false; 
+
+} 
+
+int count = 0; 
+for (int i = 0; i < this->kst; i++) 
+
+{ 
+
+for (int k = 0; k < param.kst; k++) 
+
+{ 
+
+if (this->arr[i] == param.arr[k]) 
+
+{ 
+count++; 
+
+} 
+} 
+} 
+
+if (count == param.kst) { 
+cout << "\n\t Parameter is subset of another array. "; 
+return true; 
+
+} 
+
+cout << "\n\t Parameter isn't subset of another array. "; 
+return false; 
+
+} 
+
+bool operator ^ (int element) // перевіряємо чи об'єкт містить заданий елемент 
+
+{ 
+
+for (int i = 0; i < this->kst; i++) 
+
+{ 
+
+if (this->arr[i] == element) 
+
+{ 
+
+cout << "\n\t This element (" << element << ") is part of array. \n"; 
+return true; 
+
+} 
+
+} 
+cout << "\n\t This element (" << element << ") isn't part of array. \n"; 
+return false; 
+
+} 
+
+}; 
+ 
+
+int main() 
+{ 
+
+int kst1, kst2, elem;  
+
+cout << "\t You must initialize 2 arrays.\n" << endl; 
+cout << "\t Enter the amount of numbers in first array: "; 
+cin >> kst1; 
+cout << "\n"; 
+cout << "\t Enter the amount of numbers in second array: "; 
+cin >> kst2; 
+cout << "\n"; 
+
+MyClass arr1(kst1); 
+MyClass arr2(kst2); 
+
+arr1.Scan(); 
+arr2.Scan(); 
+arr1 >> arr2; 
+arr1.eq(arr2); 
+
+arr2.operator>(arr1); 
+arr1.operator>(arr2); 
+cout << "\n\n\t Enter a number, which you want to find in our arrays: "; 
+cin >> elem; 
+arr1.operator^(elem); 
+arr2.operator ^ (elem); 
+return 0; 
+} 
