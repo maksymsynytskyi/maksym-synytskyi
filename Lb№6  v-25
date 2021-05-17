@@ -1,0 +1,161 @@
+#include <iostream> 
+#define N 20 
+ 
+using namespace std;  
+
+template<typename T> 
+class ARRAY{ 
+private: 
+
+     
+
+    T arr[N]; 
+    T elem; 
+
+ 
+public: 
+     
+
+    int intput() { 
+
+        cout << "\nВведіть елементи маисиву (не більше " << N << ")" << endl; 
+        cout << "Для завершення введіть '#'" << endl; 
+        int i; 
+        for (i = 0; i < N; i++) { 
+
+            cin >> this->arr[i]; 
+            if (this->arr[i] == '#' || this->arr[i] == 0) { 
+
+                break; 
+
+            } 
+
+        } 
+
+        rewind(stdin); 
+        return i; 
+
+    } 
+
+ 
+
+    void value(T elem) {   
+        this->elem = elem;    
+
+    } 
+
+ 
+
+    void output(int i) { 
+        cout << "Ваш масив :"<<endl; 
+        for (int k = 0; k < i; k++) { 
+            cout << this->arr[k] << " "; 
+
+        } 
+
+        cout << endl; 
+
+    } 
+
+ 
+
+    void search(int i) { 
+        cout << "Номер заданого елемента в масиві :"<<endl; 
+        int count = 0; 
+        for (int k = 0; k < i; k++) { 
+
+            if (this->arr[k] == elem) { 
+
+                count++; 
+
+                cout << "Елемент = "<< arr[k] <<" Його номер в масиві = "<<k+1<< endl; 
+
+            } 
+
+        } 
+
+        if (count == 0) { 
+            cout << "В масиві немає такого елемента\n\n\n"; 
+        } 
+
+        cout << "\n\n\n"; 
+
+    } 
+
+}; 
+
+ 
+
+ 
+
+int main() 
+
+{ 
+
+    system("chcp 1251"); 
+
+ 
+
+    cout <<"Оберіть якого типу має бути масив\n" 
+
+           "1 - цілі числа\n" 
+
+           "2 - дробові числа\n" 
+
+           "3 - символьний рядок "<<endl; 
+
+    cout << "Ваш вибір :"; 
+    int key; 
+    cin >> key; 
+
+ 
+
+    if (key == 1) { 
+
+        ARRAY<int> arr; 
+        int number = arr.intput(); 
+        arr.output(number); 
+        cout << "Введіть значення для пошуку:"; 
+        int elem; 
+        scanf_s("%d",&elem); 
+        arr.value(elem); 
+        cout << endl; 
+        arr.search(number); 
+
+    } 
+
+    else if (key == 2) { 
+
+        ARRAY<double> arr1; 
+        int numb1 = arr1.intput(); 
+        arr1.output(numb1); 
+        cout << "Введіть значення для пошуку:"; 
+        double elem; 
+        scanf_s("%lf",&elem); 
+        arr1.value(elem); 
+        cout << endl; 
+        arr1.search(numb1); 
+
+    } 
+
+    else if (key == 3) { 
+
+        ARRAY<char> arr2; 
+        int numb2 = arr2.intput(); 
+        arr2.output(numb2); 
+        cout << "Введіть значення для пошуку:"; 
+        char elem; 
+        scanf_s("%c", &elem); 
+        arr2.value(elem); 
+        cout << endl; 
+        arr2.search(numb2); 
+
+    }else{ 
+
+        cout << "Помилка введення!!!" << endl; 
+
+    } 
+
+    return 0; 
+
+} 
