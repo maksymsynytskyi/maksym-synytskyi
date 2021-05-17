@@ -1,0 +1,433 @@
+#include <iostream> 
+#include<iomanip> 
+#include <string> 
+#include <math.h> 
+#define N 50 
+ 
+using namespace std; 
+
+
+class Olympic_Tasks { //клас олімпіадні завдання  
+private: 
+string school; 
+string name; 
+int testExamples; 
+int passedTests; 
+ 
+
+public: 
+
+//сетери , гетери дані про школу 
+
+string GetSchool() { 
+return school; 
+
+} 
+
+void SetSchool(string school) { 
+this->school = school; 
+
+} 
+
+ 
+
+//сетери , гетери дані учасника 
+string GetName() { 
+return name; 
+
+} 
+
+void SetName(string name) { 
+this->name = name; 
+
+} 
+
+ 
+
+//сетери , гетери  кількість тестових прикладів 
+
+int GetTestExamples() { 
+return testExamples; 
+
+} 
+
+void SetTestExamples(int testExamples) { 
+this->testExamples = testExamples; 
+
+} 
+
+ 
+
+//сетери кількість пройдених тестів 
+int GetPassedTests() { 
+return passedTests; 
+
+} 
+
+void SetPassedTests(int passedTests) { 
+this->passedTests = passedTests; 
+
+} 
+
+ 
+
+}; 
+
+ 
+class Tasks1 : public Olympic_Tasks { //похідний клас завдання 
+ 
+
+private: 
+
+int maxRating; 
+int max = 100; 
+public: 
+virtual void THE_MORE_THE_BETTER(int testExamples, int passedTests) { 
+this->maxRating = round((max * passedTests) / testExamples); 
+
+ 
+
+} 
+
+//Гетери сетери для максимального балу 
+
+int GetMaxRating() { 
+return maxRating; 
+
+} 
+
+void SetMaxRating(int maxRating) { 
+this->maxRating = maxRating; 
+
+} 
+
+}; 
+
+ 
+
+class Tasks2 : public Tasks1 { //похідний клас завдання 
+
+ 
+
+private: 
+int new_maxRating; 
+int time; 
+public: 
+
+//THE_FASTER_THE_BETTER 
+
+void THE_MORE_THE_BETTER(int maxRating, int max) override{ 
+ 
+
+this->new_maxRating = maxRating - (this->time - max) * 2; 
+
+}  
+
+//Гетери Сетери для часу 
+
+void SetTime(int time) { 
+this->time = time; 
+
+} 
+
+int GetTime() { 
+return time; 
+
+} 
+
+//гетер для нового балу  
+int GetNew_maxRating() { 
+return  new_maxRating; 
+
+} 
+
+}; 
+
+ 
+
+ 
+
+int input(Tasks2* list, Tasks1 *tmp) { //Введення даних 
+int counter = 0; 
+printf("\nВведіть інформацію про учасникiв олiмпiади : \n" 
+
+"Для завершення ведення, замість 'Навчальний заклад' впишіть '0'\n"); 
+
+while (1) { // цикл введення даних 
+
+ 
+
+cout << "\n\t№" << counter + 1 << "\nНавчальний заклад :" << endl; 
+
+string shool; 
+
+getline(cin, shool); 
+
+if (shool[0] == '0') { //Вихід з введеня , якщо перший символ '0' 
+
+break; 
+
+} 
+
+list[counter].SetSchool(shool); 
+
+ 
+
+cout << "Прізвище, ініціали:" << endl; 
+std::string name; 
+getline(cin, name); 
+list[counter].SetName(name); 
+
+ 
+
+cout << "Кількість тестових прикладів:"; 
+int testExamples; 
+cin >> testExamples; 
+list[counter].SetTestExamples(testExamples); 
+cout << "Кількість пройдених тестів:"; 
+int passedTests; 
+cin >> passedTests; 
+list[counter].SetPassedTests(passedTests); 
+
+ 
+
+cout << "Час за який було пройдено тести (до 60 хв):"; 
+int time; 
+cin >> time; 
+list[counter].SetTime(time); 
+
+ 
+
+rewind(stdin); 
+
+ 
+
+tmp[counter].THE_MORE_THE_BETTER(testExamples, passedTests); 
+list[counter].SetMaxRating(tmp[counter].GetMaxRating()); 
+counter++; 
+
+} 
+
+return counter; //Повертаю значення кількості даних 
+
+} 
+
+ 
+
+//сортування вставками 
+
+void InsertionSort1(Tasks2* list, int number) { 
+
+int Index, j, pos; 
+int min; 
+for (Index = 0; Index < number - 1; Index++) {//вибираю елемент 
+pos = Index; 
+min = list[Index].GetMaxRating(); 
+for (j = Index + 1; j < number; j++) {//порівнюю його з усіма іншими 
+if (list[j].GetMaxRating() < min) {//найменший елемент зберігаю 
+pos = j; 
+min = list[j].GetMaxRating(); 
+
+} 
+
+} 
+
+Tasks2 temp; 
+
+temp = list[pos];//та міняю місцями з вибраним 
+list[pos] = list[Index]; 
+list[Index] = temp; 
+
+} 
+
+} 
+
+ 
+
+void InsertionSort2(Tasks2* list, int number) { 
+
+int Index, j, pos; 
+int min; 
+for (Index = 0; Index < number - 1; Index++) {//вибираю елемент 
+pos = Index; 
+min = list[Index].GetNew_maxRating(); 
+for (j = Index + 1; j < number; j++) {//порівнюю його з усіма іншими 
+if (list[j].GetNew_maxRating() < min) {//найменший елемент зберігаю 
+pos = j; 
+min = list[j].GetNew_maxRating(); 
+
+} 
+
+} 
+
+Tasks2 temp; 
+
+temp = list[pos];//та міняю місцями з вибраним 
+list[pos] = list[Index]; 
+list[Index] = temp; 
+
+} 
+
+} 
+
+ 
+
+int Suma1(Tasks2* list, int number) {//Підрахунок сумарної кількісті балів, набраних учасниками олімпіади 
+int sum = 0; 
+for (int i = 0; i < number; i++) { 
+sum += list[i].GetMaxRating(); 
+
+} 
+
+return sum; 
+
+} 
+
+ 
+
+int Suma2(Tasks2* list, int number) {//Підрахунок сумарної кількісті балів, набраних учасниками олімпіади 
+int sum = 0; 
+for (int i = 0; i < number; i++) { 
+sum += list[i].GetNew_maxRating(); 
+
+} 
+
+return sum; 
+
+} 
+
+ 
+
+void Print(Tasks2* list, int counter) { 
+int q;// видення даних у табличці 
+
+cout << "\t\t\t\tВідсортована таблиця за зростанням набраних балів"; 
+
+cout << "\n.------------------------------------------------------------------------------------------------------------------." 
+
+"\n| № |         Навчальний зклад         |   Прізвище, ініціали   | Кількість тестів | З них пройдено | Бали (x/100) |" 
+
+"\n:------------------------------------------------------------------------------------------------------------------:"; 
+
+for (q = 0; q < counter; q++) { 
+
+cout << "\n| " << q + 1 << " | " << left << setw(33) << list[q].GetSchool() << "| "; 
+
+cout << left << setw(23) << list[q].GetName() << "|        " << left << setw(10) << list[q].GetTestExamples(); 
+
+cout << "|        " << left << setw(8) << list[q].GetPassedTests() << "|      " << left << setw(8) << list[q].GetMaxRating() << "|"; 
+
+} 
+
+cout << "\n'------------------------------------------------------------------------------------------------------------------'\n" << endl; 
+
+cout << "Cумарна кількість балів, набраних учасниками олімпіади = " << Suma1(list, counter) << "/" << 100 * counter << endl; 
+
+} 
+
+ 
+
+void Print2(Tasks2* list, int counter) { 
+
+int q;// видення даних у табличці 
+
+cout << "\n\n\t\t\t\tВідсортована таблиця за зростанням набраних балів З урахуванням часу"; 
+
+cout << "\n.---------------------------------------------------------------------------------------------------------------------------." 
+
+    "\n| № |         Навчальний зклад         |   Прізвище, ініціали   | Кількість тестів | З них пройдено |  Час   | Бали (x/100) |" 
+
+    "\n:---------------------------------------------------------------------------------------------------------------------------:"; 
+
+for (q = 0; q < counter; q++) { 
+
+cout << "\n| " << q + 1 << " | " << left << setw(33) << list[q].GetSchool() << "| "; 
+
+cout << left << setw(23) << list[q].GetName() << "|        " << left << setw(10) << list[q].GetTestExamples(); 
+
+cout << "|        " << left << setw(8) << list[q].GetPassedTests(); 
+
+cout << "|  " << left << setw(3)  << list[q].GetTime(); 
+
+    cout << "хв.|      " << left << setw(8) << list[q].GetNew_maxRating() << "|"; 
+
+} 
+
+cout << "\n'---------------------------------------------------------------------------------------------------------------------------'\n" << endl; 
+
+cout << "Cумарна кількість балів, набраних учасниками олімпіади = " << Suma2(list, counter) << "/" << 100 * counter << endl; 
+
+} 
+
+ 
+
+//визначення найшвидшого учасника 
+
+int The_longest_Time(Tasks2 *list,int num) { 
+int max; 
+
+max = list[0].GetTime(); 
+for (int i = 1; i < num; i++) { 
+if (list[i].GetTime() < max) { 
+max = list[i].GetTime(); 
+
+} 
+
+} 
+
+return max; 
+
+} 
+
+ 
+
+//функція знімання балів 
+
+void Subtraction_Of_Points(Tasks2* list, Tasks1 *tmp, int num, int max) { 
+//Використано масив вказівників на об’єкти базового класу, 
+//яким присвоїно адреси об’єктів похідних класів 
+//перевірка 
+
+Tasks1 *lists[N]; 
+
+for (int i = 0; i < num; i++) { 
+
+lists[i] = &list[i]; 
+
+lists[i]->THE_MORE_THE_BETTER(list[i].GetMaxRating(), max); 
+
+} 
+
+} 
+
+ 
+
+ 
+
+int main() 
+
+{ 
+
+system("chcp 1251"); 
+Tasks2 list[N];	 
+Tasks1 tmp[N]; 
+int num = input(list, tmp);//ввеження даних 
+
+ 
+
+InsertionSort1(list, num);//сортування даних (вставками) 
+Print(list, num);//друк таблиці 
+
+
+ 
+
+int max =The_longest_Time(list, num);//визначення найшвидшого учасника 
+Subtraction_Of_Points(list, tmp, num, max);//знімання балів за запізення відносно найшвидшого учасника 
+
+ 
+
+InsertionSort2(list, num);//сортування даних (вставками) 
+Print2(list, num);//друк таблиці 
+
+
+} 
