@@ -1,0 +1,188 @@
+#include <iostream> 
+#include <fstream> 
+#include <vector> 
+
+ 
+
+ 
+
+using namespace ::std; 
+ 
+
+template <typename T> 
+
+
+class STACK{ 
+public: 
+
+    vector<T> myVector; 
+    void operator~() 
+
+    { 
+
+        myVector.erase(myVector.begin()); 
+
+    } 
+
+    void print() 
+
+    { 
+
+        for (auto i = myVector.cbegin(); i != myVector.cend(); ++i) 
+            cout << *i << endl; 
+
+    } 
+
+    void audit() 
+
+    { 
+
+        int k = 0; 
+        for (auto i = myVector.begin(); i != myVector.end(); ++i) { 
+            for (auto j = myVector.begin(); j != myVector.end(); ++j) { 
+                if (i == j) continue; 
+                if (*j == *i) 
+                    k++; 
+
+            } 
+
+        } 
+
+        if (k == 0) { 
+
+            cout << "Усі елементи у стеку різні!" << endl; 
+
+        } 
+
+        else { 
+
+            cout << "Елементи у стеку не різні!" << endl; 
+
+        } 
+
+ 
+
+    } 
+
+    void operator+(T obj) 
+
+    { 
+
+        myVector.push_back(obj); 
+
+    } 
+
+    void EnteringinStack() 
+
+    { 
+
+        size_t first = 0, last = myVector.size(); 
+        while ((first != last) && (first != --last)) 
+
+        { 
+
+            T tmp = myVector[first]; 
+            myVector[first] = myVector[last]; 
+            myVector[last] = tmp; 
+            ++first; 
+
+        } 
+
+    } 
+
+    void operator<<(const string& folder) 
+
+    { 
+
+        ifstream fin; 
+        fin.open(folder); 
+
+        if (fin.is_open()) { 
+            while (!fin.eof()) { 
+                T temp; 
+                fin >> temp; 
+                *this + temp; 
+
+            } 
+
+            fin.close(); 
+
+        } else 
+
+        cout << "Не вдалося відкрити файл!" << endl; 
+
+    } 
+
+    void operator>>(const string& folder) 
+
+    { 
+
+        std::ofstream fout; 
+        fout.open(folder); 
+        for (auto elem = myVector.cbegin(); elem != myVector.cend(); ++elem) 
+            fout << *elem << endl; 
+        fout.close(); 
+
+    } 
+
+}; 
+
+ 
+
+int main() { 
+
+    system("chcp 1251"); 
+    //E:\int.txt 
+
+ 
+
+    STACK<int> int_stack; 
+    string name = "E:\\int.txt" , out_name = "E:\\it.txt" ; 
+
+ 
+
+    cout << "\n\tШлях до файлу, з якого зчитано цілі числа: " << name << endl; 
+    int_stack << name; 
+    cout << "\n\tВміст файлу:" << std::endl; 
+
+ 
+
+    int_stack.EnteringinStack(); 
+    int_stack.print(); 
+    cout << "\nПісля видалення вершини стеку:\n"; 
+    ~int_stack; 
+    int_stack.print(); 
+    int_stack.audit(); 
+    cout << "\n\tШлях до файлу, в який зчитано цілі числа:" << out_name <<endl; 
+    int_stack >> out_name; 
+
+ 
+
+ 
+
+ 
+
+    STACK<string> sring_stack; 
+    string name1 = "E:\\sring.txt", out_name1 = "E:\\sr.txt"; 
+
+ 
+
+    cout << "\n\tШлях до файлу, з якого зчитано символьні рядки: " << name1 << endl; 
+    sring_stack << name1; 
+    cout << "\n\tВміст файлу:" << std::endl; 
+
+ 
+
+    sring_stack.EnteringinStack(); 
+    sring_stack.print(); 
+    cout << "\nПісля видалення вершини стеку:\n"; 
+    ~sring_stack; 
+    sring_stack.print(); 
+    sring_stack.audit(); 
+    cout << "\n\tШлях до файлу, в який зчитано символьні рядки:" << out_name1 << endl; 
+    sring_stack >> out_name1; 
+
+ 
+    return 0; 
+
+} 
